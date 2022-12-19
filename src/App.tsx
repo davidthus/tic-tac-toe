@@ -1,6 +1,8 @@
-import React, { lazy, Suspense } from "react";
+import React, { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import styled from "styled-components";
+import { useAppSelector } from "./app/hooks";
+import Modal from "./components/Modal";
 import Home from "./pages/Home";
 
 const CPU = lazy(() => import("./pages/CPU"));
@@ -11,6 +13,20 @@ const Container = styled.main`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Backdrop = styled.div`
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 50;
+  position: fixed;
+  display: flex;
   justify-content: center;
   align-items: center;
 `;
@@ -34,8 +50,16 @@ const Fallback = styled.main`
 `;
 
 function App() {
+  const { modal } = useAppSelector((state) => state);
   return (
     <Container>
+      {modal.modalIsOpen && (
+        <>
+          <Backdrop>
+            <Modal />
+          </Backdrop>
+        </>
+      )}
       <Suspense fallback={<Fallback>Loading...</Fallback>}>
         <Routes>
           <Route path="/" element={<Home />} />

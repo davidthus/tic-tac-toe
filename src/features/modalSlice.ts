@@ -7,7 +7,7 @@ interface modalSliceState {
 }
 
 const initialState: modalSliceState = {
-  type: "win",
+  type: "restart",
   modalIsOpen: false,
 };
 
@@ -16,14 +16,14 @@ const modalSlice = createSlice({
   initialState,
   reducers: {
     openModal: (state, action) => {
-      state = {
+      return {
         type: action.payload.type,
         modalIsOpen: true,
         playerWon: action.payload?.playerWon,
       };
     },
-    closeModal: (state, action) => {
-      state = {
+    closeModal: (state) => {
+      return {
         type: "win",
         modalIsOpen: false,
       };

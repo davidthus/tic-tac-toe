@@ -75,7 +75,8 @@ export const Cell = styled.button`
   border-radius: 15px;
   box-shadow: rgb(16, 33, 42) 0px -8px 0px inset;
   border: 0px;
-  cursor: pointer;
+  cursor: ${({ filled }: { filled: boolean }) =>
+    filled ? "default" : "pointer"};
   display: flex;
   -webkit-box-align: center;
   align-items: center;
@@ -106,4 +107,16 @@ export const Ties = styled(ScoreInfo)`
 `;
 export const OWins = styled(ScoreInfo)`
   background: rgb(242, 177, 55);
+`;
+
+export const SvgOutlineWrapper = styled.div`
+  display: ${({ cellFilled }: { cellFilled: boolean }) =>
+    cellFilled ? "none" : "block"};
+`;
+
+export const SvgOutline = styled.svg`
+  display: none;
+  ${Cell}:hover & {
+    display: block;
+  }
 `;

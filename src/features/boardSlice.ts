@@ -6,7 +6,6 @@ interface boardSliceState {
   gameState: CellValue[];
   currentPlayer: "X" | "O";
   player1: "X" | "O";
-  gameActive: boolean;
   score: {
     x: number;
     ties: number;
@@ -18,7 +17,6 @@ const initialState: boardSliceState = {
   gameState: Array(9).fill(null),
   currentPlayer: "X",
   player1: "X",
-  gameActive: false,
   score: {
     x: 0,
     ties: 0,
@@ -51,7 +49,6 @@ const boardSlice = createSlice({
       state = {
         gameState: Array(9).fill(null),
         currentPlayer: "X",
-        gameActive: true,
         player1: action.payload.player1,
         score: {
           x: 0,
@@ -60,37 +57,30 @@ const boardSlice = createSlice({
         },
       };
     },
-
-    // pseudo code
-    /* 
-      handle cell played 
-      handle player change
-      handleResultValidation() {
-    let roundWon = false;
-    for (let i = 0; i <= 7; i++) {
-        const winCondition = winningConditions[i];
-        let a = gameState[winCondition[0]];
-        let b = gameState[winCondition[1]];
-        let c = gameState[winCondition[2]];
-        if (a === '' || b === '' || c === '') {
-            continue;
-        }
-        if (a === b && b === c) {
-            roundWon = true;
-            break
-        }
-    }
-if (roundWon) {
-        statusDisplay.innerHTML = winningMessage();
-        gameActive = false;
-        return;
-    }
-}
-      handle cell click
-      handle restart game
-    */
+    fillCell: (state, action) => {
+      const { index, player } = action.payload;
+      state.gameState.splice(index, 1, player);
+    },
+    newRound: (state) => {
+      return {
+        gameState: Array(9).fill(null),
+        currentPlayer: "X",
+        player1: state.player1,
+        score: state.score,
+      };
+    },
+    addToScore: (state, action: { payload: { score: "o" | "x" | "ties" } }) => {
+      state.score[action.payload.score] += 1;
+    },
   },
 });
 
-export const { togglePlayer, setPlayer1, restartGame } = boardSlice.actions;
+export const {
+  togglePlayer,
+  setPlayer1,
+  restartGame,
+  fillCell,
+  addToScore,
+  newRound,
+} = boardSlice.actions;
 export default boardSlice.reducer;
