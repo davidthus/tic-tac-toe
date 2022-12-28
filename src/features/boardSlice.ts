@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-type CellValue = "O" | "X" | null;
+export type CellValue = "O" | "X" | null;
 
 interface boardSliceState {
   gameState: CellValue[];
@@ -46,7 +46,7 @@ const boardSlice = createSlice({
       state.player1 = action.payload.player1;
     },
     restartGame: (state, action) => {
-      state = {
+      return {
         gameState: Array(9).fill(null),
         currentPlayer: "X",
         player1: action.payload.player1,

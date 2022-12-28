@@ -114,7 +114,13 @@ function Player() {
         )}
         turn
       </CurrentTurn>
-      <RestartButton type="button" aria-labelledby="restartLabel">
+      <RestartButton
+        onClick={() => {
+          dispatch(openModal({ type: "restart" }));
+        }}
+        type="button"
+        aria-labelledby="restartLabel"
+      >
         <HiddenLabel id="restartLabel">Restart</HiddenLabel>
         <i>
           <RestartIcon />
